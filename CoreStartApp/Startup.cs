@@ -18,10 +18,26 @@ namespace CoreStartApp
 		{
 		}
 
+		private static void About(IApplicationBuilder app)
+		{
+			app.Run(async context =>
+			{
+				await context.Response.WriteAsync($"{env.ApplicationName} - ASP.Net Core tutorial project");
+			});
+		}
+
+		private static void Config(IApplicationBuilder app)
+		{
+			app.Run(async context =>
+			{
+				await context.Response.WriteAsync($"App name: {env.ApplicationName}. App running configuration: {env.EnvironmentName}");
+			});
+		}
+
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
-			if (env.IsDevelopment())
+			if (env.IsDevelopment() || env.IsStaging())
 			{
 				app.UseDeveloperExceptionPage();
 			}
@@ -34,6 +50,14 @@ namespace CoreStartApp
 				{
 					await context.Response.WriteAsync("Hello World!");
 				});
+			});
+
+			app.Map("/about", About);
+			app.Map("/config", Config);
+
+			app.Run(async context =>
+			{
+				await context.Response.WriteAsync($"Page not found");
 			});
 		}
 	}
