@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -44,6 +45,10 @@ namespace CoreStartApp
 
 			app.UseRouting();
 
+			app.UseStaticFiles();
+
+			app.UseMiddleware<LoggingMiddleware>();
+
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapGet("/", async context =>
@@ -55,10 +60,7 @@ namespace CoreStartApp
 			app.Map("/about", About);
 			app.Map("/config", Config);
 
-			app.Run(async context =>
-			{
-				await context.Response.WriteAsync($"Page not found");
-			});
+			app.UseStatusCodePages();
 		}
 	}
 }
