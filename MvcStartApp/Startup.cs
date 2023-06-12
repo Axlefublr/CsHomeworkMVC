@@ -42,6 +42,8 @@ namespace MvcStartApp
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 
+			app.UseMiddleware<LoggingMiddleware>();
+
 			app.UseRouting();
 
 			app.UseAuthorization();
