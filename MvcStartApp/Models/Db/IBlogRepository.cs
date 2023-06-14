@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace MvcStartApp
+namespace MvcStartApp.Models.Db
 {
 	public interface IBlogRepository
 	{

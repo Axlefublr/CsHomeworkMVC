@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MvcStartApp.Models;
+using MvcStartApp.Models.Db;
 
 namespace MvcStartApp.Controllers
 {
@@ -38,12 +39,7 @@ namespace MvcStartApp.Controllers
 		public async Task<IActionResult> Authors()
 		{
 			var authors = await _repo.GetUsers();
-			Console.WriteLine("See all blog authors:");
-			foreach (var author in authors)
-			{
-				Console.WriteLine($"Author name {author.FirstName}, joined {author.JoinDate}");
-			}
-			return View();
+			return View(authors);
 		}
 
 		public IActionResult Privacy()
