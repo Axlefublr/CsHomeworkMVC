@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 
 namespace MvcStartApp.Models.Db
 {
@@ -12,6 +13,8 @@ namespace MvcStartApp.Models.Db
 
 		/// Ссылка на таблицу UserPosts
 		public DbSet<UserPost> UserPosts { get; set; }
+
+		public DbSet<Request> Requests { get; set; }
 
 		// Логика взаимодействия с таблицами в БД
 		public BlogContext(DbContextOptions<BlogContext> options) : base(options)

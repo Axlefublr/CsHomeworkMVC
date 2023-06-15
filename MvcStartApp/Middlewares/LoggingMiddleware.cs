@@ -2,8 +2,9 @@
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using MvcStartApp.Models.Db;
 
-namespace MvcStartApp
+namespace MvcStartApp.Middlewares
 {
 	public class LoggingMiddleware
 	{
@@ -20,10 +21,18 @@ namespace MvcStartApp
 		/// <summary>
 		///  Необходимо реализовать метод Invoke  или InvokeAsync
 		/// </summary>
-		public async Task InvokeAsync(HttpContext context)
+		public async Task InvokeAsync(HttpContext context, BlogContext dbContext)
 		{
-			// Для логирования данных о запросе используем свойста объекта HttpContext
-			Console.WriteLine($"[{DateTime.Now}]: New request to http://{context.Request.Host.Value + context.Request.Path}");
+			Console.WriteLine($"[{DateTime.Now}]: New request to http//{context.Request.Host.Value + context.Request.Path}");
+
+			Request request = new()
+			{
+				Id = Guid.NewGuid(),
+				Date = DateTime.UtcNow,
+				Url = context.Request.Path.ToString()
+			};
+			dbContext.Requests.Add(request);
+			await dbContext.SaveChangesAsync();
 
 			// Передача запроса далее по конвейеру
 			await _next.Invoke(context);
